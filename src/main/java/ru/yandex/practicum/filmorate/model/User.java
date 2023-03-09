@@ -3,12 +3,14 @@ package ru.yandex.practicum.filmorate.model;
 import lombok.Data;
 import lombok.NonNull;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Data
 public class User {
-    @NotNull
     @Min(0)
     private final int id;
     @NonNull
@@ -18,10 +20,23 @@ public class User {
     @NotEmpty
     @Pattern(regexp = "\\w+", message = "логин записан не правильно")
     private String login;
-    @NonNull
     private String name;
     @NonNull
     private LocalDate birthday;
+    public static int idCounter = 1;
 
+    public User(@NonNull String email, @NonNull String login, String name, @NonNull LocalDate birthday) {
+        if (name == null) {
+            name = login;
+        }
 
+        this.email = email;
+        this.login = login;
+        this.name = name;
+        this.birthday = birthday;
+
+        this.id = idCounter;
+    }
 }
+
+

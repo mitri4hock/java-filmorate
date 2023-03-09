@@ -20,34 +20,36 @@ public class UserController {
 
     private final Map<Integer, User> listUser = new HashMap<>();
 
-    @PostMapping("/new")
-    public void createUser(@Valid @RequestBody  User user) {
+    @PostMapping()
+    public User createUser(@Valid @RequestBody  User user) {
         if (user.getBirthday().isAfter(LocalDate.now())) {
             throw new ValidationException("Дата рождения не может быть в будущем");
         }
         if (listUser.containsKey(user.getId())) {
             throw new FilmExistBeforePostException("пользователь уже есть в базе");
         }
-        if (user.getName().equals("")){
-            user.setName( user.getLogin() );
-        }
+
         listUser.put(user.getId(), user);
         log.info("создан новый пользователь: {}" , user);
+        User.idCounter++;
+        return user;
     }
 
-    @PutMapping("/update")
-    public void updateUser(@Valid @RequestBody User user) {
+    @PutMapping()
+    public User updateUser(@Valid @RequestBody User user) {
         if (user.getBirthday().isAfter(LocalDate.now())) {
             throw new ValidationException("Дата рождения не может быть в будущем");
         }
-        if (user.getName().equals("")){
-            user.setName( user.getLogin() );
+        if (!listUser.containsKey(user.getId())){
+            throw new ValidationException("нет такого пользователя");
         }
         listUser.put(user.getId(), user);
         log.info("обновлён пользователь: {}" , user);
+
+        return user;
     }
 
-    @GetMapping("/films")
+    @GetMapping()
     public List<User> getAllUsers() {
         return new ArrayList<>(listUser.values());
     }

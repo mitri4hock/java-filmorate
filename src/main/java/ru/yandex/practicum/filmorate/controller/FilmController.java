@@ -20,9 +20,9 @@ public class FilmController {
 
     private final Map<Integer, Film> listFilms = new HashMap<>();
 
-    @PostMapping("/new")
-    public void createFilm( @Valid @RequestBody Film film) {
-        if (film.getReleaseDate().isBefore( LocalDate.of(1895, 12, 28) )){
+    @PostMapping()
+    public Film createFilm(@Valid @RequestBody Film film) {
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             throw new ValidationException("не верная дата во входящих данных");
         }
         if (listFilms.containsKey(film.getId())) {
@@ -30,18 +30,24 @@ public class FilmController {
         }
         listFilms.put(film.getId(), film);
         log.info("создан новый фильм: {}", film);
+        return film;
     }
 
-    @PutMapping("/update")
-    public void updateFilm( @Valid @RequestBody Film film) {
-        if (film.getReleaseDate().isBefore( LocalDate.of(1895, 12, 28) )){
+    @PutMapping()
+    public Film updateFilm(@Valid @RequestBody Film film) {
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             throw new ValidationException("не верная дата во входящих данных");
+        }
+        if (!listFilms.containsKey(film.getId())) {
+            throw new ValidationException("нет такого фильма");
         }
         listFilms.put(film.getId(), film);
         log.info("обновлён фильм: {}", film);
+        Film.idCounter++;
+        return film;
     }
 
-    @GetMapping("/films")
+    @GetMapping()
     public List<Film> getAllFilms() {
         return new ArrayList<>(listFilms.values());
     }

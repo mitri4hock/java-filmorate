@@ -4,15 +4,12 @@ import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.validator.constraints.Length;
 
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
 public class Film {
-    @NotNull
     @Min(0)
     private final int id;
     @NonNull
@@ -26,6 +23,15 @@ public class Film {
     @NonNull
     @Min(1)
     private int duration;
+    public static int idCounter = 1;
 
+    public Film(@NonNull String name, @NonNull String description, @NonNull LocalDate releaseDate, @NonNull int duration) {
+        this.name = name;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
 
+        this.id = idCounter;
+
+    }
 }
