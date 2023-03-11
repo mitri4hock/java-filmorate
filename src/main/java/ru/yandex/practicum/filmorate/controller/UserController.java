@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping()
     public User createUser(@Valid @RequestBody  User user) {
-        if (user.getBirthday().isAfter(LocalDate.now())) {
+        if (user.getBirthday() != null && user.getBirthday().isAfter(LocalDate.now())) {
             throw new ValidationException("Дата рождения не может быть в будущем");
         }
         if (listUser.containsKey(user.getId())) {
@@ -37,7 +37,7 @@ public class UserController {
 
     @PutMapping()
     public User updateUser(@Valid @RequestBody User user) {
-        if (user.getBirthday().isAfter(LocalDate.now())) {
+        if (user.getBirthday() != null && user.getBirthday().isAfter(LocalDate.now())) {
             throw new ValidationException("Дата рождения не может быть в будущем");
         }
         if (!listUser.containsKey(user.getId())){

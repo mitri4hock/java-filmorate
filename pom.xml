@@ -12,7 +12,8 @@
 	<artifactId>filmorate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>filmorate</name>
-	<description>Spring Web</description>
+	<description>a service that will work with movies and user ratings, as well as will return the top 5 movies
+		recommended for viewing</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

@@ -5,7 +5,7 @@ import lombok.NonNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
@@ -13,19 +13,17 @@ import java.time.LocalDate;
 public class User {
     @Min(0)
     private final int id;
-    @NonNull
+    @NotBlank
     @Email
     private String email;
-    @NonNull
-    @NotEmpty
+    @NotBlank
     @Pattern(regexp = "\\w+", message = "логин записан не правильно")
     private String login;
     private String name;
-    @NonNull
     private LocalDate birthday;
     public static int idCounter = 1;
 
-    public User(@NonNull String email, @NonNull String login, String name, @NonNull LocalDate birthday) {
+    public User(@NonNull String email, @NonNull String login, String name,  LocalDate birthday) {
         if (name == null) {
             name = login;
         }
